@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:dingyi-888.x.yupoo.com)",
+      "Bash(npm create *)",
+      "Bash(Get-ChildItem *)",
+      "Bash(dir /a \"C:\\\\Users\\\\usuario\\\\Desktop\\\\camisetas\")",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(firebase *)",
+      "Bash(Start-Process *)",
+      "Bash(powershell.exe *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(node -e \"const {sampleProducts} = require\\('./src/data/products.js'\\); console.log\\('Total:', sampleProducts.length\\); const sel = sampleProducts.filter\\(p=>p.category==='selecciones'\\); const club = sampleProducts.filter\\(p=>p.category==='clubes'\\); console.log\\('Selecciones:', sel.length\\); console.log\\('Clubes:', club.length\\); console.log\\('\\\\n-- Selecciones --'\\); sel.forEach\\(p=>console.log\\(' ', p.name\\)\\); console.log\\('\\\\n-- Clubes --'\\); club.forEach\\(p=>console.log\\(' ', p.name\\)\\);\")"
+    ]
+  }
+}
