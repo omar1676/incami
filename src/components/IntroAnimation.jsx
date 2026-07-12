@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useIntroController } from '../controllers/useIntroController'
 
 const PARTS = [
   { id: 'in',    text: 'in',    keep: true  },
@@ -11,15 +11,7 @@ const PARTS = [
 const SIZE = 'clamp(3.5rem, 13vw, 9rem)'
 
 export default function IntroAnimation({ onDone }) {
-  const [collapsed, setCollapsed] = useState(false)
-  const [fadeOut,   setFadeOut]   = useState(false)
-
-  useEffect(() => {
-    const t1 = setTimeout(() => setCollapsed(true), 900)
-    const t2 = setTimeout(() => setFadeOut(true),   2100)
-    const t3 = setTimeout(() => onDone(),            2600)
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
-  }, [onDone])
+  const { collapsed, fadeOut } = useIntroController({ onDone })
 
   return (
     <div style={{
@@ -32,7 +24,6 @@ export default function IntroAnimation({ onDone }) {
       transition: 'opacity 0.5s ease',
       pointerEvents: fadeOut ? 'none' : 'all',
     }}>
-      {/* Glow decorativo */}
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -69,7 +60,7 @@ export default function IntroAnimation({ onDone }) {
         opacity: collapsed ? 0 : 1,
         transition: 'opacity 0.35s ease',
       }}>
-        catálogo · temporada 26-27
+        catalogue · season 26-27
       </p>
     </div>
   )

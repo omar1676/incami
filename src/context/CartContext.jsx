@@ -52,8 +52,14 @@ export function CartProvider({ children }) {
 
   const totalItems = items.reduce((sum, i) => sum + i.qty, 0)
 
-  function addItem(product, selectedSize) {
-    dispatch({ type: 'ADD', item: { ...product, selectedSize } })
+  const totalPrice = items.reduce((sum, i) => {
+    const extras = i.extras ?? {}
+    const extrasCount = [extras.parche, extras.numero !== null && extras.numero !== undefined, extras.nombre !== null && extras.nombre !== undefined].filter(Boolean).length
+    return sum + (i.price + extrasCount * 5) * i.qty
+  }, 0)
+
+  function addItem(product, selectedSize, extras = null) {
+    dispatch({ type: 'ADD', item: { ...product, selectedSize, extras } })
   }
 
   function removeItem(id, size) {
@@ -69,7 +75,7 @@ export function CartProvider({ children }) {
   }
 
   return (
-    <CartContext.Provider value={{ items, totalItems, addItem, removeItem, updateQty, clearCart }}>
+    <CartContext.Provider value={{ items, totalItems, totalPrice, addItem, removeItem, updateQty, clearCart }}>
       {children}
     </CartContext.Provider>
   )

@@ -7,24 +7,24 @@ export const sampleProducts = [
   // ── Argentina ──
   {
     id: 'arg-away-26-27',
-    name: 'Argentina Visitante 26-27',
-    category: 'selecciones', team: 'Argentina', season: '26-27', type: 'away',
+    name: 'Albiceleste Visitante 26-27',
+    category: 'selecciones', team: 'Albiceleste', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/0967315c66/medium.jpeg'],
     available: true, yupooAlbum: '235275112',
   },
   {
     id: 'arg-training-26-27',
-    name: 'Argentina Entrenamiento 26-27',
-    category: 'selecciones', team: 'Argentina', season: '26-27', type: 'training',
+    name: 'Albiceleste Entrenamiento 26-27',
+    category: 'selecciones', team: 'Albiceleste', season: '26-27', type: 'training', price: 25,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/8641b855/medium.jpeg'],
     available: true, yupooAlbum: '231951225',
   },
   {
     id: 'arg-goat-26-27',
-    name: 'Argentina Edición GOAT 26-27',
-    category: 'selecciones', team: 'Argentina', season: '26-27', type: 'special',
+    name: 'Albiceleste Edición GOAT 26-27',
+    category: 'selecciones', team: 'Albiceleste', season: '26-27', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL'],
     images: ['https://photo.yupoo.com/dingyi-888/596ef4b3/medium.jpeg'],
     available: true, yupooAlbum: '224020690',
@@ -33,24 +33,24 @@ export const sampleProducts = [
   // ── Brasil ──
   {
     id: 'bra-home-26-27',
-    name: 'Brasil Local 26-27',
-    category: 'selecciones', team: 'Brasil', season: '26-27', type: 'home',
+    name: 'Canarinha Local 26-27',
+    category: 'selecciones', team: 'Canarinha', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/79cfe11ae0/medium.jpeg'],
     available: true, yupooAlbum: '233878346',
   },
   {
     id: 'bra-away-26-27',
-    name: 'Brasil Visitante 26-27',
-    category: 'selecciones', team: 'Brasil', season: '26-27', type: 'away',
+    name: 'Canarinha Visitante 26-27',
+    category: 'selecciones', team: 'Canarinha', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/1ffb3b5679/medium.jpeg'],
     available: true, yupooAlbum: '232955810',
   },
   {
     id: 'bra-gk-green-26-27',
-    name: 'Brasil Arquero Verde 26-27',
-    category: 'selecciones', team: 'Brasil', season: '26-27', type: 'goalkeeper',
+    name: 'Canarinha Arquero Verde 26-27',
+    category: 'selecciones', team: 'Canarinha', season: '26-27', type: 'goalkeeper', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/b44a1ce869/medium.jpeg'],
     available: true, yupooAlbum: '235504412',
@@ -59,8 +59,8 @@ export const sampleProducts = [
   // ── Francia ──
   {
     id: 'fra-away-26-27',
-    name: 'Francia Visitante 26-27',
-    category: 'selecciones', team: 'Francia', season: '26-27', type: 'away',
+    name: 'Les Bleus Visitante 26-27',
+    category: 'selecciones', team: 'Les Bleus', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/36d84951ec/medium.jpeg'],
     available: true, yupooAlbum: '233874669',
@@ -69,24 +69,24 @@ export const sampleProducts = [
   // ── Inglaterra ──
   {
     id: 'eng-home-26-27',
-    name: 'Inglaterra Local 26-27',
-    category: 'selecciones', team: 'Inglaterra', season: '26-27', type: 'home',
+    name: 'Leones Local 26-27',
+    category: 'selecciones', team: 'Leones', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/020adeab19/medium.jpeg'],
     available: true, yupooAlbum: '233880042',
   },
   {
     id: 'eng-special-26-27',
-    name: 'Inglaterra Edición Especial 26-27',
-    category: 'selecciones', team: 'Inglaterra', season: '26-27', type: 'special',
+    name: 'Leones Edición Especial 26-27',
+    category: 'selecciones', team: 'Leones', season: '26-27', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/45982f11ed/medium.jpeg'],
     available: true, yupooAlbum: '234186914',
   },
   {
     id: 'eng-training-26-27',
-    name: 'Inglaterra Entrenamiento 26-27',
-    category: 'selecciones', team: 'Inglaterra', season: '26-27', type: 'training',
+    name: 'Leones Entrenamiento 26-27',
+    category: 'selecciones', team: 'Leones', season: '26-27', type: 'training', price: 25,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/ca15dd62da/medium.jpeg'],
     available: true, yupooAlbum: '233875430',
@@ -95,32 +95,32 @@ export const sampleProducts = [
   // ── Portugal ──
   {
     id: 'por-gk-green-26-27',
-    name: 'Portugal Arquero Verde 26-27',
-    category: 'selecciones', team: 'Portugal', season: '26-27', type: 'goalkeeper',
+    name: 'Quinas Arquero Verde 26-27',
+    category: 'selecciones', team: 'Quinas', season: '26-27', type: 'goalkeeper', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/a134f258be/medium.jpeg'],
     available: true, yupooAlbum: '233877758',
   },
   {
     id: 'por-gk-pink-26-27',
-    name: 'Portugal Arquero Rosa 26-27',
-    category: 'selecciones', team: 'Portugal', season: '26-27', type: 'goalkeeper',
+    name: 'Quinas Arquero Rosa 26-27',
+    category: 'selecciones', team: 'Quinas', season: '26-27', type: 'goalkeeper', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/664274063f/medium.jpeg'],
     available: true, yupooAlbum: '233877201',
   },
   {
     id: 'por-gk-grey-26-27',
-    name: 'Portugal Arquero Gris 26-27',
-    category: 'selecciones', team: 'Portugal', season: '26-27', type: 'goalkeeper',
+    name: 'Quinas Arquero Gris 26-27',
+    category: 'selecciones', team: 'Quinas', season: '26-27', type: 'goalkeeper', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/2e2f8c4c5f/medium.jpeg'],
     available: true, yupooAlbum: '233876750',
   },
   {
     id: 'por-goat-26-27',
-    name: 'Portugal Edición GOAT 26-27',
-    category: 'selecciones', team: 'Portugal', season: '26-27', type: 'special',
+    name: 'Quinas Edición GOAT 26-27',
+    category: 'selecciones', team: 'Quinas', season: '26-27', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL'],
     images: ['https://photo.yupoo.com/dingyi-888/70da1f21/medium.jpeg'],
     available: true, yupooAlbum: '224020647',
@@ -129,8 +129,8 @@ export const sampleProducts = [
   // ── España ──
   {
     id: 'esp-away-26-27',
-    name: 'España Visitante 26-27',
-    category: 'selecciones', team: 'España', season: '26-27', type: 'away',
+    name: 'La Roja Visitante 26-27',
+    category: 'selecciones', team: 'La Roja', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/a5ab5303/medium.jpeg'],
     available: true, yupooAlbum: '231949230',
@@ -139,8 +139,8 @@ export const sampleProducts = [
   // ── Alemania ──
   {
     id: 'ger-home-26-27',
-    name: 'Alemania Local 26-27',
-    category: 'selecciones', team: 'Alemania', season: '26-27', type: 'home',
+    name: 'Die Mannschaft Local 26-27',
+    category: 'selecciones', team: 'Die Mannschaft', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/f2bccb6c/medium.jpeg'],
     available: true, yupooAlbum: '228474231',
@@ -149,8 +149,8 @@ export const sampleProducts = [
   // ── Colombia ──
   {
     id: 'col-home-26-27',
-    name: 'Colombia Local 26-27',
-    category: 'selecciones', team: 'Colombia', season: '26-27', type: 'home',
+    name: 'Cafeteros Local 26-27',
+    category: 'selecciones', team: 'Cafeteros', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/d49e0b49/medium.jpeg'],
     available: true, yupooAlbum: '228500515',
@@ -159,16 +159,16 @@ export const sampleProducts = [
   // ── Países Bajos ──
   {
     id: 'ned-home-26-27',
-    name: 'Países Bajos Local 26-27',
-    category: 'selecciones', team: 'Países Bajos', season: '26-27', type: 'home',
+    name: 'Naranja Mecánica Local 26-27',
+    category: 'selecciones', team: 'Naranja Mecánica', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/2609fc167a/medium.jpeg'],
     available: true, yupooAlbum: '235505248',
   },
   {
     id: 'ned-away-26-27',
-    name: 'Países Bajos Visitante 26-27',
-    category: 'selecciones', team: 'Países Bajos', season: '26-27', type: 'away',
+    name: 'Naranja Mecánica Visitante 26-27',
+    category: 'selecciones', team: 'Naranja Mecánica', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/03d09a2ad9/medium.jpeg'],
     available: true, yupooAlbum: '235275630',
@@ -177,16 +177,16 @@ export const sampleProducts = [
   // ── Croacia ──
   {
     id: 'cro-home-26-27',
-    name: 'Croacia Local 26-27',
-    category: 'selecciones', team: 'Croacia', season: '26-27', type: 'home',
+    name: 'Vatreni Local 26-27',
+    category: 'selecciones', team: 'Vatreni', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/00627423db/medium.jpeg'],
     available: true, yupooAlbum: '235275807',
   },
   {
     id: 'cro-away-26-27',
-    name: 'Croacia Visitante 26-27',
-    category: 'selecciones', team: 'Croacia', season: '26-27', type: 'away',
+    name: 'Vatreni Visitante 26-27',
+    category: 'selecciones', team: 'Vatreni', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/bc7f6492cb/medium.jpeg'],
     available: true, yupooAlbum: '235275915',
@@ -195,8 +195,8 @@ export const sampleProducts = [
   // ── Japón ──
   {
     id: 'jpn-away-26-27',
-    name: 'Japón Visitante 26-27',
-    category: 'selecciones', team: 'Japón', season: '26-27', type: 'away',
+    name: 'Samuráis Azules Visitante 26-27',
+    category: 'selecciones', team: 'Samuráis Azules', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/41a265f5e9/medium.jpeg'],
     available: true, yupooAlbum: '235274877',
@@ -205,8 +205,8 @@ export const sampleProducts = [
   // ── Corea del Sur ──
   {
     id: 'kor-away-26-27',
-    name: 'Corea del Sur Visitante 26-27',
-    category: 'selecciones', team: 'Corea del Sur', season: '26-27', type: 'away',
+    name: 'Guerreros Taeguk Visitante 26-27',
+    category: 'selecciones', team: 'Guerreros Taeguk', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/2e55be0427/medium.jpeg'],
     available: true, yupooAlbum: '235505009',
@@ -215,16 +215,16 @@ export const sampleProducts = [
   // ── Noruega ──
   {
     id: 'nor-home-26-27',
-    name: 'Noruega Local 26-27',
-    category: 'selecciones', team: 'Noruega', season: '26-27', type: 'home',
+    name: 'Vikingos Local 26-27',
+    category: 'selecciones', team: 'Vikingos', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/0defe7613e/medium.jpeg'],
     available: true, yupooAlbum: '235504765',
   },
   {
     id: 'nor-away-26-27',
-    name: 'Noruega Visitante 26-27',
-    category: 'selecciones', team: 'Noruega', season: '26-27', type: 'away',
+    name: 'Vikingos Visitante 26-27',
+    category: 'selecciones', team: 'Vikingos', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/6f3914cf75/medium.jpeg'],
     available: true, yupooAlbum: '235504843',
@@ -233,8 +233,8 @@ export const sampleProducts = [
   // ── Jamaica ──
   {
     id: 'jam-away-26-27',
-    name: 'Jamaica Visitante 26-27',
-    category: 'selecciones', team: 'Jamaica', season: '26-27', type: 'away',
+    name: 'Reggae Boyz Visitante 26-27',
+    category: 'selecciones', team: 'Reggae Boyz', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/78c715d1/medium.jpeg'],
     available: true, yupooAlbum: '228471843',
@@ -247,8 +247,8 @@ export const sampleProducts = [
   // ── Real Madrid ──
   {
     id: 'rm-home-26-27',
-    name: 'Real Madrid Local 26-27',
-    category: 'clubes', team: 'Real Madrid', season: '26-27', type: 'home',
+    name: 'Los Blancos Local 26-27',
+    category: 'clubes', team: 'Los Blancos', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/c2d883ba/medium.jpeg'],
     available: true, yupooAlbum: '229527066',
@@ -257,24 +257,24 @@ export const sampleProducts = [
   // ── Barcelona ──
   {
     id: 'bar-home-26-27',
-    name: 'Barcelona Local 26-27',
-    category: 'clubes', team: 'Barcelona', season: '26-27', type: 'home',
+    name: 'Blaugrana Local 26-27',
+    category: 'clubes', team: 'Blaugrana', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/d5c7f05e/medium.jpeg'],
     available: true, yupooAlbum: '228022655',
   },
   {
     id: 'bar-special-26-27',
-    name: 'Barcelona Edición Especial 26-27',
-    category: 'clubes', team: 'Barcelona', season: '26-27', type: 'special',
+    name: 'Blaugrana Edición Especial 26-27',
+    category: 'clubes', team: 'Blaugrana', season: '26-27', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/1bf8878a22/medium.jpeg'],
     available: true, yupooAlbum: '235276514',
   },
   {
     id: 'bar-training-26-27',
-    name: 'Barcelona Entrenamiento 26-27',
-    category: 'clubes', team: 'Barcelona', season: '26-27', type: 'training',
+    name: 'Blaugrana Entrenamiento 26-27',
+    category: 'clubes', team: 'Blaugrana', season: '26-27', type: 'training', price: 25,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/6f3ebd7650/medium.jpeg'],
     available: true, yupooAlbum: '234186993',
@@ -283,16 +283,16 @@ export const sampleProducts = [
   // ── Manchester United ──
   {
     id: 'manu-home-26-27',
-    name: 'Manchester United Local 26-27',
-    category: 'clubes', team: 'Manchester United', season: '26-27', type: 'home',
+    name: 'Diablos Rojos Local 26-27',
+    category: 'clubes', team: 'Diablos Rojos', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/049ef99bbc/medium.jpeg'],
     available: true, yupooAlbum: '235503796',
   },
   {
     id: 'manu-graffiti-26-27',
-    name: 'Manchester United Edición Grafiti 26-27',
-    category: 'clubes', team: 'Manchester United', season: '26-27', type: 'special',
+    name: 'Diablos Rojos Edición Grafiti 26-27',
+    category: 'clubes', team: 'Diablos Rojos', season: '26-27', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/63694e82/medium.jpeg'],
     available: true, yupooAlbum: '228473716',
@@ -301,8 +301,8 @@ export const sampleProducts = [
   // ── Manchester City ──
   {
     id: 'mancity-home-26-27',
-    name: 'Manchester City Local 26-27',
-    category: 'clubes', team: 'Manchester City', season: '26-27', type: 'home',
+    name: 'Citizens Local 26-27',
+    category: 'clubes', team: 'Citizens', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/d7313125/medium.jpeg'],
     available: true, yupooAlbum: '223067029',
@@ -311,16 +311,16 @@ export const sampleProducts = [
   // ── Arsenal ──
   {
     id: 'ars-home-26-27',
-    name: 'Arsenal Local 26-27',
-    category: 'clubes', team: 'Arsenal', season: '26-27', type: 'home',
+    name: 'Cañoneros Local 26-27',
+    category: 'clubes', team: 'Cañoneros', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/15c5f6c2/medium.jpeg'],
     available: true, yupooAlbum: '232366564',
   },
   {
     id: 'ars-away-26-27',
-    name: 'Arsenal Visitante 26-27',
-    category: 'clubes', team: 'Arsenal', season: '26-27', type: 'away',
+    name: 'Cañoneros Visitante 26-27',
+    category: 'clubes', team: 'Cañoneros', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/7bfaa2d966/medium.jpeg'],
     available: true, yupooAlbum: '235274597',
@@ -329,16 +329,16 @@ export const sampleProducts = [
   // ── AC Milan ──
   {
     id: 'acm-home-26-27',
-    name: 'AC Milan Local 26-27',
-    category: 'clubes', team: 'AC Milan', season: '26-27', type: 'home',
+    name: 'Rossoneri Local 26-27',
+    category: 'clubes', team: 'Rossoneri', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/adb5b2121a/medium.jpeg'],
     available: true, yupooAlbum: '235275454',
   },
   {
     id: 'acm-away-26-27',
-    name: 'AC Milan Visitante 26-27',
-    category: 'clubes', team: 'AC Milan', season: '26-27', type: 'away',
+    name: 'Rossoneri Visitante 26-27',
+    category: 'clubes', team: 'Rossoneri', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/17cbc13e/medium.jpeg'],
     available: true, yupooAlbum: '231951016',
@@ -347,16 +347,16 @@ export const sampleProducts = [
   // ── PSG ──
   {
     id: 'psg-white-26-27',
-    name: 'PSG Blanco Edición Especial 26-27',
-    category: 'clubes', team: 'Paris Saint-Germain', season: '26-27', type: 'special',
+    name: 'Parisinos Blanco Edición Especial 26-27',
+    category: 'clubes', team: 'Parisinos', season: '26-27', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/ba81148d/medium.jpeg'],
     available: true, yupooAlbum: '224140649',
   },
   {
     id: 'psg-beige-training-26-27',
-    name: 'PSG Entrenamiento Beige 26-27',
-    category: 'clubes', team: 'Paris Saint-Germain', season: '26-27', type: 'training',
+    name: 'Parisinos Entrenamiento Beige 26-27',
+    category: 'clubes', team: 'Parisinos', season: '26-27', type: 'training', price: 25,
     sizes: ['S','M','L','XL','2XL'],
     images: ['https://photo.yupoo.com/dingyi-888/b0b0c0df/medium.jpeg'],
     available: true, yupooAlbum: '224140881',
@@ -365,8 +365,8 @@ export const sampleProducts = [
   // ── Tottenham ──
   {
     id: 'tot-training-26-27',
-    name: 'Tottenham Entrenamiento 26-27',
-    category: 'clubes', team: 'Tottenham', season: '26-27', type: 'training',
+    name: 'Spurs Entrenamiento 26-27',
+    category: 'clubes', team: 'Spurs', season: '26-27', type: 'training', price: 25,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/59cac678/medium.jpeg'],
     available: true, yupooAlbum: '229526750',
@@ -375,8 +375,8 @@ export const sampleProducts = [
   // ── Benfica ──
   {
     id: 'ben-third-26-27',
-    name: 'Benfica Tercera Equipación 26-27',
-    category: 'clubes', team: 'Benfica', season: '26-27', type: 'away',
+    name: 'Águias Tercera Equipación 26-27',
+    category: 'clubes', team: 'Águias', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/17074256/medium.jpeg'],
     available: true, yupooAlbum: '229246601',
@@ -385,8 +385,8 @@ export const sampleProducts = [
   // ── Celtic ──
   {
     id: 'cel-home-26-27',
-    name: 'Celtic Local 26-27',
-    category: 'clubes', team: 'Celtic', season: '26-27', type: 'home',
+    name: 'Bhoys Local 26-27',
+    category: 'clubes', team: 'Bhoys', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL'],
     images: ['https://photo.yupoo.com/dingyi-888/b0ac9617/medium.jpeg'],
     available: true, yupooAlbum: '226557346',
@@ -395,8 +395,8 @@ export const sampleProducts = [
   // ── LA Galaxy ──
   {
     id: 'lag-home-26-27',
-    name: 'LA Galaxy Local 26-27',
-    category: 'clubes', team: 'LA Galaxy', season: '26-27', type: 'home',
+    name: 'Galaxy Local 26-27',
+    category: 'clubes', team: 'Galaxy', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/006e0ece/medium.jpeg'],
     available: true, yupooAlbum: '228319138',
@@ -405,8 +405,8 @@ export const sampleProducts = [
   // ── Flamengo ──
   {
     id: 'fla-home-26-27',
-    name: 'Flamengo Local 26-27',
-    category: 'clubes', team: 'Flamengo', season: '26-27', type: 'home',
+    name: 'Mengão Local 26-27',
+    category: 'clubes', team: 'Mengão', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/dae50255/medium.jpeg'],
     available: true, yupooAlbum: '231950145',
@@ -415,26 +415,26 @@ export const sampleProducts = [
   // ── Palmeiras ──
   {
     id: 'pal-home-26-27',
-    name: 'Palmeiras Local 26-27',
-    category: 'clubes', team: 'Palmeiras', season: '26-27', type: 'home',
+    name: 'Verdão Local 26-27',
+    category: 'clubes', team: 'Verdão', season: '26-27', type: 'home', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/078f3143/medium.jpeg'],
     available: true, yupooAlbum: '232643584',
   },
   {
     id: 'pal-away-26-27',
-    name: 'Palmeiras Visitante 26-27',
-    category: 'clubes', team: 'Palmeiras', season: '26-27', type: 'away',
+    name: 'Verdão Visitante 26-27',
+    category: 'clubes', team: 'Verdão', season: '26-27', type: 'away', price: 30,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/f097dc90/medium.jpeg'],
     available: true, yupooAlbum: '231950550',
   },
 
-  // ── Liverpool (temporada anterior) ──
+  // ── Liverpool ──
   {
     id: 'liv-training-24-26',
-    name: 'Liverpool Entrenamiento 24-26',
-    category: 'clubes', team: 'Liverpool', season: '24-26', type: 'training',
+    name: 'The Reds Entrenamiento 24-26',
+    category: 'clubes', team: 'The Reds', season: '24-26', type: 'training', price: 25,
     sizes: ['S','M','L','XL','2XL','3XL','4XL'],
     images: ['https://photo.yupoo.com/dingyi-888/2c286b84/medium.jpeg'],
     available: true, yupooAlbum: '220396920',
@@ -443,8 +443,8 @@ export const sampleProducts = [
   // ── Portugal 25-26 ──
   {
     id: 'por-special-25-26',
-    name: 'Portugal Edición Especial 25-26',
-    category: 'selecciones', team: 'Portugal', season: '25-26', type: 'special',
+    name: 'Quinas Edición Especial 25-26',
+    category: 'selecciones', team: 'Quinas', season: '25-26', type: 'special', price: 35,
     sizes: ['S','M','L','XL','2XL'],
     images: ['https://photo.yupoo.com/dingyi-888/2cb864a6/medium.jpeg'],
     available: true, yupooAlbum: '228022438',

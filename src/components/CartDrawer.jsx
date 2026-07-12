@@ -1,78 +1,112 @@
-import { useCart } from '../context/CartContext'
-import { buildWhatsAppLink, STORE_CONFIG } from '../config'
+import { useCartDrawerController } from '../controllers/useCartDrawerController'
 
 export default function CartDrawer({ open, onClose }) {
-  const { items, removeItem, updateQty, totalItems } = useCart()
-
-  function handleOrder() {
-    if (items.length === 0) return
-    const link = buildWhatsAppLink(items)
-    window.open(link, '_blank')
-  }
+  const { items, removeItem, updateQty, totalItems, totalPrice, itemPrice, handleConsultar, t } = useCartDrawerController()
 
   return (
     <>
-      {/* Overlay */}
       {open && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40"
-          onClick={onClose}
-        />
+        <div onClick={onClose} style={{
+          position: 'fixed', inset: 0,
+          background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', zIndex: 40,
+        }} />
       )}
 
-      {/* Drawer */}
-      <div className={`fixed top-0 right-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-700 z-50 flex flex-col transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div style={{
+        position: 'fixed', top: 0, right: 0,
+        height: '100%', width: '100%', maxWidth: 420,
+        background: '#080a1e', borderLeft: '1px solid rgba(255,255,255,0.07)',
+        zIndex: 50, display: 'flex', flexDirection: 'column',
+        transform: open ? 'translateX(0)' : 'translateX(100%)',
+        transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
+      }}>
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700">
-          <h2 className="text-lg font-bold text-white">
-            Carrito {totalItems > 0 && <span className="text-green-400">({totalItems})</span>}
-          </h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-white p-1">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '1.25rem 1.5rem', borderBottom: '1px solid rgba(255,255,255,0.07)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <h2 style={{ color: '#e2e8f0', fontSize: '1rem', fontWeight: 800, margin: 0 }}>{t('cart_title')}</h2>
+            {totalItems > 0 && (
+              <span style={{
+                background: 'rgba(74,222,128,0.15)', color: '#4ade80',
+                fontSize: '0.7rem', fontWeight: 800, padding: '2px 8px', borderRadius: 999,
+                border: '1px solid rgba(74,222,128,0.25)',
+              }}>
+                {totalItems} {totalItems === 1 ? t('cart_model') : t('cart_models')}
+              </span>
+            )}
+          </div>
+          <button onClick={onClose} style={{
+            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 8, color: '#64748b', cursor: 'pointer',
+            width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'all 0.15s',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.09)'; e.currentTarget.style.color = '#94a3b8' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#64748b' }}
+          >
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* Items */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scrollbar-hide">
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: 12 }}>
           {items.length === 0 ? (
-            <div className="text-center py-16 text-slate-500">
-              <div className="text-5xl mb-4">🛒</div>
-              <p className="text-lg font-medium">El carrito está vacío</p>
-              <p className="text-sm mt-1">Agregá camisetas para hacer tu pedido</p>
+            <div style={{ textAlign: 'center', padding: '5rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: '50%',
+                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <svg width="28" height="28" fill="none" stroke="#334155" strokeWidth={1.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <div>
+                <p style={{ color: '#475569', fontWeight: 700, margin: '0 0 4px' }}>{t('cart_empty')}</p>
+                <p style={{ color: '#334155', fontSize: '0.82rem', margin: 0 }}>{t('cart_empty_sub')}</p>
+              </div>
             </div>
           ) : (
-            items.map((item) => (
-              <div key={`${item.id}-${item.selectedSize}`} className="flex gap-4 bg-slate-800 rounded-xl p-4">
-                <img
-                  src={item.images?.[0]}
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded-lg flex-shrink-0 bg-slate-700"
-                  onError={(e) => { e.target.src = 'https://placehold.co/80x80/1e293b/94a3b8?text=?' }}
+            items.map(item => (
+              <div key={`${item.id}-${item.selectedSize}`} style={{
+                display: 'flex', gap: 14, background: '#0c0e22', borderRadius: 14,
+                border: '1px solid rgba(255,255,255,0.07)', padding: '1rem',
+              }}>
+                <img src={item.images?.[0]} alt={item.name}
+                  style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 10, flexShrink: 0, background: '#10122a' }}
+                  onError={e => { e.target.src = 'https://placehold.co/72x72/10122a/1a1c38?text=?' }}
                 />
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-white text-sm leading-tight">{item.name}</p>
-                  <p className="text-green-400 text-sm mt-1">Talle: <span className="font-bold">{item.selectedSize}</span></p>
-                  {item.price > 0 && (
-                    <p className="text-slate-300 text-sm mt-1">{STORE_CONFIG.currencySymbol}{item.price}</p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ color: '#e2e8f0', fontWeight: 600, fontSize: '0.85rem', margin: '0 0 3px', lineHeight: 1.3 }}>{item.name}</p>
+                  <p style={{ color: '#4ade80', fontSize: '0.72rem', fontWeight: 700, margin: '0 0 6px' }}>
+                    {t('cart_size')}: {item.selectedSize}
+                  </p>
+                  {item.extras && (item.extras.parche || item.extras.numero || item.extras.nombre) && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
+                      {item.extras.parche && <span style={{ background: 'rgba(251,191,36,0.1)', color: '#fbbf24', fontSize: '0.65rem', fontWeight: 700, padding: '2px 8px', borderRadius: 5, border: '1px solid rgba(251,191,36,0.2)' }}>{t('detail_badge')}</span>}
+                      {item.extras.numero && <span style={{ background: 'rgba(251,191,36,0.1)', color: '#fbbf24', fontSize: '0.65rem', fontWeight: 700, padding: '2px 8px', borderRadius: 5, border: '1px solid rgba(251,191,36,0.2)' }}>N° {item.extras.numero}</span>}
+                      {item.extras.nombre && <span style={{ background: 'rgba(251,191,36,0.1)', color: '#fbbf24', fontSize: '0.65rem', fontWeight: 700, padding: '2px 8px', borderRadius: 5, border: '1px solid rgba(251,191,36,0.2)' }}>{item.extras.nombre}</span>}
+                    </div>
                   )}
-                  {/* Qty controls */}
-                  <div className="flex items-center gap-3 mt-3">
-                    <button
-                      onClick={() => updateQty(item.id, item.selectedSize, item.qty - 1)}
-                      className="w-7 h-7 rounded-full bg-slate-700 hover:bg-slate-600 text-white flex items-center justify-center text-lg leading-none font-bold transition-colors"
-                    >−</button>
-                    <span className="text-white font-semibold w-4 text-center">{item.qty}</span>
-                    <button
-                      onClick={() => updateQty(item.id, item.selectedSize, item.qty + 1)}
-                      className="w-7 h-7 rounded-full bg-slate-700 hover:bg-slate-600 text-white flex items-center justify-center text-lg leading-none font-bold transition-colors"
-                    >+</button>
-                    <button
-                      onClick={() => removeItem(item.id, item.selectedSize)}
-                      className="ml-auto text-slate-500 hover:text-red-400 transition-colors"
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <button onClick={() => updateQty(item.id, item.selectedSize, item.qty - 1)} style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>−</button>
+                      <span style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.9rem', minWidth: 16, textAlign: 'center' }}>{item.qty}</span>
+                      <button onClick={() => updateQty(item.id, item.selectedSize, item.qty + 1)} style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>+</button>
+                    </div>
+                    <span style={{ color: '#4ade80', fontWeight: 800, fontSize: '0.9rem' }}>
+                      {itemPrice(item) * item.qty}€
+                    </span>
+                    <button onClick={() => removeItem(item.id, item.selectedSize)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 4, transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
+                      onMouseEnter={e => e.currentTarget.style.color = '#f87171'}
+                      onMouseLeave={e => e.currentTarget.style.color = '#475569'}
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
                     </button>
@@ -83,26 +117,31 @@ export default function CartDrawer({ open, onClose }) {
           )}
         </div>
 
-        {/* Footer — WhatsApp button */}
-        <div className="px-6 py-4 border-t border-slate-700">
-          {items.length > 0 ? (
-            <button
-              onClick={handleOrder}
-              className="w-full bg-green-500 hover:bg-green-400 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 text-lg transition-colors shadow-lg shadow-green-900/30"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Pedir por WhatsApp
-            </button>
-          ) : (
-            <button
-              disabled
-              className="w-full bg-slate-700 text-slate-500 font-bold py-4 rounded-xl flex items-center justify-center gap-3 text-lg cursor-not-allowed"
-            >
-              Carrito vacío
-            </button>
+        {/* Footer */}
+        <div style={{ padding: '1.25rem 1.5rem', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+          {items.length > 0 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <span style={{ color: '#64748b', fontSize: '0.82rem', fontWeight: 600 }}>Total</span>
+              <span style={{ color: '#4ade80', fontSize: '1.4rem', fontWeight: 900, letterSpacing: '-0.03em' }}>{totalPrice}€</span>
+            </div>
           )}
+          <button onClick={handleConsultar} disabled={!items.length} style={{
+            width: '100%', padding: '15px 24px', borderRadius: 14, border: 'none',
+            cursor: items.length ? 'pointer' : 'not-allowed',
+            fontWeight: 800, fontSize: '0.95rem',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            background: items.length ? 'linear-gradient(135deg, #229ED9, #1a7fc1)' : 'rgba(255,255,255,0.05)',
+            color: items.length ? '#fff' : '#334155',
+            boxShadow: items.length ? '0 4px 24px rgba(34,158,217,0.35)' : 'none',
+            transition: 'all 0.2s',
+          }}>
+            {items.length > 0 && (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.013 9.484c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.972 14.7l-2.946-.92c-.64-.203-.654-.64.136-.953l11.49-4.43c.537-.194 1.006.131.91.851z"/>
+              </svg>
+            )}
+            {items.length ? t('cart_btn') : t('cart_btn_empty')}
+          </button>
         </div>
       </div>
     </>

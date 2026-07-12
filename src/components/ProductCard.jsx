@@ -1,90 +1,82 @@
-import { Link } from 'react-router-dom'
-
-const TYPE_BADGE = {
-  home:       { label: 'Local',     bg: 'rgba(165,180,252,0.15)', color: '#a5b4fc', glow: 'rgba(165,180,252,0.3)' },
-  away:       { label: 'Visitante', bg: 'rgba(249,168,212,0.15)', color: '#f9a8d4', glow: 'rgba(249,168,212,0.3)' },
-  special:    { label: 'Especial',  bg: 'rgba(251,191,36,0.15)',  color: '#fbbf24', glow: 'rgba(251,191,36,0.3)'  },
-  training:   { label: 'Entrena.',  bg: 'rgba(100,116,139,0.15)', color: '#94a3b8', glow: 'rgba(100,116,139,0.3)' },
-  goalkeeper: { label: 'Arquero',   bg: 'rgba(52,211,153,0.15)',  color: '#34d399', glow: 'rgba(52,211,153,0.3)'  },
-}
+import { Link }                    from 'react-router-dom'
+import { useProductCardController } from '../controllers/useProductCardController'
 
 export default function ProductCard({ product }) {
-  const badge = TYPE_BADGE[product.type]
+  const { typeInfo, fav, handleFav, t } = useProductCardController(product)
   const image = product.images?.[0]
 
   return (
-    <Link to={`/producto/${product.id}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
-      <div
-        className="card-hover group"
-        style={{
-          background: 'linear-gradient(160deg, #0d0f26 0%, #0c0e22 100%)',
-          border: '1px solid #1a1c38',
-          borderRadius: 14, overflow: 'hidden',
-          display: 'flex', flexDirection: 'column', height: '100%',
-          transition: 'border-color 0.22s, box-shadow 0.22s',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.borderColor = '#2a2c50'
-          e.currentTarget.style.boxShadow = '0 8px 40px rgba(129,140,248,0.12)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.borderColor = '#1a1c38'
-          e.currentTarget.style.boxShadow = 'none'
-        }}
-      >
-        {/* Imagen 3:4 */}
-        <div style={{ position: 'relative', background: '#10122a', aspectRatio: '3/4', overflow: 'hidden' }}>
-          <img
-            src={image}
-            alt={product.name}
-            loading="lazy"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', transition: 'transform 0.4s ease' }}
-            className="group-hover:scale-105"
-            onError={e => { e.target.src = 'https://placehold.co/300x400/0c0e22/1a1c38?text=?' }}
+    <Link to={`/producto/${product.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+      <article className="product-card" style={{
+        background: '#0a0c1e', border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: 16, overflow: 'hidden',
+      }}>
+
+        {/* Imagen */}
+        <div style={{ position: 'relative', background: '#0d0f26', aspectRatio: '3/4', overflow: 'hidden' }}>
+          <img src={image} alt={product.name} loading="lazy" className="card-img"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', transition: 'transform 0.45s ease' }}
+            onError={e => { e.target.src = 'https://placehold.co/300x400/0a0c1e/161828?text=?' }}
           />
-
-          {/* Gradient overlay al hover */}
           <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(5,6,17,0.7) 0%, transparent 50%)',
-            opacity: 0, transition: 'opacity 0.3s',
-          }} className="group-hover:opacity-100" />
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: 'linear-gradient(to top, rgba(5,6,17,0.92) 0%, rgba(5,6,17,0.08) 48%, transparent 68%)',
+          }} />
 
-          {/* Badge */}
-          {badge && (
+          {/* Badge tipo */}
+          {typeInfo && (
             <span style={{
-              position: 'absolute', top: 8, left: 8,
-              background: badge.bg, color: badge.color,
-              fontSize: '0.58rem', fontWeight: 800,
-              padding: '3px 8px', borderRadius: 6,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              backdropFilter: 'blur(8px)',
+              position: 'absolute', top: 10, left: 10,
+              background: typeInfo.bg, color: typeInfo.color,
+              fontSize: '0.55rem', fontWeight: 800, padding: '3px 8px', borderRadius: 5,
+              letterSpacing: '0.1em', textTransform: 'uppercase', backdropFilter: 'blur(8px)',
             }}>
-              {badge.label}
+              {t(typeInfo.labelShortKey)}
             </span>
           )}
+
+          {/* Favorito */}
+          <button onClick={handleFav} aria-label={fav ? 'Remove from favorites' : 'Add to favorites'} style={{
+            position: 'absolute', top: 8, right: 8,
+            background: fav ? 'rgba(248,113,113,0.2)' : 'rgba(0,0,0,0.4)',
+            border: `1px solid ${fav ? 'rgba(248,113,113,0.5)' : 'rgba(255,255,255,0.12)'}`,
+            borderRadius: '50%', width: 30, height: 30,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', backdropFilter: 'blur(8px)',
+            transition: 'all 0.2s ease',
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24"
+              fill={fav ? '#f87171' : 'none'} stroke={fav ? '#f87171' : 'rgba(255,255,255,0.7)'} strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </button>
+
+          {/* Equipo */}
+          <p style={{
+            position: 'absolute', bottom: 10, left: 12, right: 12, margin: 0,
+            color: '#4ade80', fontSize: '0.58rem', fontWeight: 800,
+            letterSpacing: '0.15em', textTransform: 'uppercase',
+            textShadow: '0 1px 10px rgba(0,0,0,0.95)',
+          }}>
+            {product.team}
+          </p>
         </div>
 
         {/* Info */}
-        <div style={{ padding: '10px 12px 12px', display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
-          <span style={{ color: '#4ade80', fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-            {product.team}
-          </span>
-          <span style={{ color: '#cbd5e1', fontSize: '0.78rem', fontWeight: 600, lineHeight: 1.3 }}>
+        <div style={{ padding: '11px 13px 15px' }}>
+          <p style={{ color: '#cbd5e1', fontSize: '0.83rem', fontWeight: 600, lineHeight: 1.35, margin: '0 0 10px' }}>
             {product.name}
-          </span>
-          <div style={{
-            marginTop: 8, padding: '7px 0', textAlign: 'center',
-            background: 'rgba(74,222,128,0.05)',
-            border: '1px solid rgba(74,222,128,0.1)',
-            borderRadius: 8,
-            color: '#4ade80', fontSize: '0.7rem', fontWeight: 700,
-            transition: 'background 0.2s, border-color 0.2s',
-          }} className="group-hover:bg-emerald-950/50">
-            Ver detalles →
+          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ color: '#475569', fontSize: '0.65rem', fontWeight: 700, background: 'rgba(255,255,255,0.04)', padding: '2px 8px', borderRadius: 5 }}>
+              {product.season}
+            </span>
+            <span className="card-arrow" style={{ color: '#475569', fontSize: '0.78rem', display: 'inline-block', transition: 'color 0.2s ease, transform 0.2s ease' }}>
+              →
+            </span>
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   )
 }
