@@ -27,8 +27,8 @@ const SIZE_ENC = { S:'S', M:'M', L:'L', XL:'X', '2XL':'2', '3XL':'3', '4XL':'4' 
 
 function telegramBase() {
   return STORE_CONFIG.telegramUsername
-    ? `https://t.me/${STORE_CONFIG.telegramUsername}`
-    : `https://t.me/+${STORE_CONFIG.telegramNumber}`
+    ? `https://telegram.me/${STORE_CONFIG.telegramUsername}`
+    : `https://telegram.me/+${STORE_CONFIG.telegramNumber}`
 }
 
 export function buildTelegramLink(items) {
@@ -44,7 +44,7 @@ export function buildTelegramLink(items) {
       return `${String(idx).padStart(2, '0')}${s}${q}${ef}`
     }).filter(Boolean)
     if (!parts.length) return telegramBase()
-    return `https://t.me/${STORE_CONFIG.botUsername}?start=p${parts.join('')}`
+    return `https://telegram.me/${STORE_CONFIG.botUsername}?start=p${parts.join('')}`
   }
 
   const base = telegramBase()
