@@ -14,6 +14,7 @@ export function useProductDetailController() {
 
   const [activeImg,    setActiveImg]    = useState(0)
   const [selectedSize, setSelectedSize] = useState(null)
+  const [qty,          setQty]          = useState(1)
   const [added,        setAdded]        = useState(false)
   const [extras,       setExtras]       = useState({ parche: false, numero: null, nombre: null })
 
@@ -46,7 +47,7 @@ export function useProductDetailController() {
       parche: extras.parche,
       numero: extras.numero?.trim() || null,
       nombre: extras.nombre?.trim() || null,
-    })
+    }, qty)
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }
@@ -55,6 +56,7 @@ export function useProductDetailController() {
     product, navigate,
     activeImg, setActiveImg,
     selectedSize, setSelectedSize,
+    qty, setQty,
     handleAddToCart, added,
     extras, toggleParche, toggleNumero, toggleNombre, setNumero, setNombre,
     typeInfo, sizes, breadcrumbs, features,

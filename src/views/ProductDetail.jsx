@@ -13,6 +13,7 @@ export default function ProductDetail() {
     product, navigate,
     activeImg, setActiveImg,
     selectedSize, setSelectedSize,
+    qty, setQty,
     handleAddToCart, added,
     extras, toggleParche, toggleNumero, toggleNombre, setNumero, setNombre,
     typeInfo, sizes, breadcrumbs, features,
@@ -177,6 +178,24 @@ export default function ProductDetail() {
                   style={INPUT_STYLE}
                 />
               )}
+            </div>
+
+            {/* Cantidad */}
+            <div style={{ marginBottom: '2rem' }}>
+              <p style={{ color: '#475569', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 12px' }}>
+                {t('detail_qty')}
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 0, width: 'fit-content', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 12, overflow: 'hidden' }}>
+                <button
+                  onClick={() => setQty(q => Math.max(1, q - 1))}
+                  style={{ width: 40, height: 40, background: 'none', border: 'none', color: qty > 1 ? '#94a3b8' : '#334155', cursor: qty > 1 ? 'pointer' : 'default', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.15s' }}
+                >−</button>
+                <span style={{ minWidth: 36, textAlign: 'center', color: '#e2e8f0', fontWeight: 800, fontSize: '1rem' }}>{qty}</span>
+                <button
+                  onClick={() => setQty(q => Math.min(20, q + 1))}
+                  style={{ width: 40, height: 40, background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.15s' }}
+                >+</button>
+              </div>
             </div>
 
             <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 0 1.75rem' }} />

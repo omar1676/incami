@@ -6,13 +6,14 @@ function cartReducer(state, action) {
   switch (action.type) {
     case 'ADD': {
       const key = `${action.item.id}-${action.item.selectedSize}`
+      const addQty = action.item.qty ?? 1
       const existing = state.find((i) => `${i.id}-${i.selectedSize}` === key)
       if (existing) {
         return state.map((i) =>
-          `${i.id}-${i.selectedSize}` === key ? { ...i, qty: i.qty + 1 } : i
+          `${i.id}-${i.selectedSize}` === key ? { ...i, qty: i.qty + addQty } : i
         )
       }
-      return [...state, { ...action.item, qty: 1 }]
+      return [...state, { ...action.item, qty: addQty }]
     }
     case 'REMOVE': {
       const key = `${action.id}-${action.size}`
@@ -58,8 +59,8 @@ export function CartProvider({ children }) {
     return sum + (i.price + extrasCount * 5) * i.qty
   }, 0)
 
-  function addItem(product, selectedSize, extras = null) {
-    dispatch({ type: 'ADD', item: { ...product, selectedSize, extras } })
+  function addItem(product, selectedSize, extras = null, qty = 1) {
+    dispatch({ type: 'ADD', item: { ...product, selectedSize, extras, qty } })
   }
 
   function removeItem(id, size) {
