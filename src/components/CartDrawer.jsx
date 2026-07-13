@@ -99,9 +99,6 @@ export default function CartDrawer({ open, onClose }) {
                       <span style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.9rem', minWidth: 16, textAlign: 'center' }}>{item.qty}</span>
                       <button onClick={() => updateQty(item.id, item.selectedSize, item.qty + 1)} style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>+</button>
                     </div>
-                    <span style={{ color: '#4ade80', fontWeight: 800, fontSize: '0.9rem' }}>
-                      {itemPrice(item) * item.qty}€
-                    </span>
                     <button onClick={() => removeItem(item.id, item.selectedSize)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 4, transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
                       onMouseEnter={e => e.currentTarget.style.color = '#f87171'}
                       onMouseLeave={e => e.currentTarget.style.color = '#475569'}
@@ -119,20 +116,26 @@ export default function CartDrawer({ open, onClose }) {
 
         {/* Footer */}
         <div style={{ padding: '1.25rem 1.5rem', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-          {items.length > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <span style={{ color: '#64748b', fontSize: '0.82rem', fontWeight: 600 }}>Total</span>
-              <span style={{ color: '#4ade80', fontSize: '1.4rem', fontWeight: 900, letterSpacing: '-0.03em' }}>{totalPrice}€</span>
+          {items.length > 0 && totalItems < 8 && (
+            <div style={{
+              background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)',
+              borderRadius: 10, padding: '10px 14px', marginBottom: '1rem',
+              display: 'flex', alignItems: 'center', gap: 8,
+            }}>
+              <span style={{ fontSize: '0.8rem' }}>⚠️</span>
+              <span style={{ color: '#fbbf24', fontSize: '0.78rem', fontWeight: 600 }}>
+                Mínimo 8 prendas por pedido. Faltan {8 - totalItems}.
+              </span>
             </div>
           )}
-          <button onClick={handleConsultar} disabled={!items.length} style={{
+          <button onClick={handleConsultar} disabled={!items.length || totalItems < 8} style={{
             width: '100%', padding: '15px 24px', borderRadius: 14, border: 'none',
-            cursor: items.length ? 'pointer' : 'not-allowed',
+            cursor: items.length && totalItems >= 8 ? 'pointer' : 'not-allowed',
             fontWeight: 800, fontSize: '0.95rem',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-            background: items.length ? 'linear-gradient(135deg, #229ED9, #1a7fc1)' : 'rgba(255,255,255,0.05)',
-            color: items.length ? '#fff' : '#334155',
-            boxShadow: items.length ? '0 4px 24px rgba(34,158,217,0.35)' : 'none',
+            background: items.length && totalItems >= 8 ? 'linear-gradient(135deg, #229ED9, #1a7fc1)' : 'rgba(255,255,255,0.05)',
+            color: items.length && totalItems >= 8 ? '#fff' : '#334155',
+            boxShadow: items.length && totalItems >= 8 ? '0 4px 24px rgba(34,158,217,0.35)' : 'none',
             transition: 'all 0.2s',
           }}>
             {items.length > 0 && (

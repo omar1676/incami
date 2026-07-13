@@ -113,6 +113,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         await update.message.reply_text("❌ Pedido no válido. Vuelve a la web e inténtalo de nuevo.")
         return ConversationHandler.END
 
+    total_units = sum(i.get('qty', 1) for i in items)
+    if total_units < 8:
+        await update.message.reply_text(
+            f"⚠️ El pedido mínimo es de *8 prendas*.\n\n"
+            f"Tu pedido tiene {total_units} prenda(s). Vuelve a la tienda y añade más artículos.",
+            parse_mode="Markdown"
+        )
+        return ConversationHandler.END
+
     total = calculate_total(items)
     user = update.effective_user
 
