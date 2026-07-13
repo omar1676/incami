@@ -70,8 +70,8 @@ export const es = {
 
   // Cart drawer
   cart_title:     'Mi consulta',
-  cart_models:    'modelos',
-  cart_model:     'modelo',
+  cart_models:    'uds',
+  cart_model:     'ud',
   cart_empty:     'Sin modelos seleccionados',
   cart_empty_sub: 'Añadí camisetas para consultar disponibilidad',
   cart_size:      'Talle',

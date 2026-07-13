@@ -39,7 +39,9 @@ export function buildTelegramLink(items) {
       if (idx < 0) return null
       const s = SIZE_ENC[i.selectedSize] || 'M'
       const q = Math.min(i.qty, 9)
-      return `${String(idx).padStart(2, '0')}${s}${q}`
+      const e = i.extras ?? {}
+      const ef = (e.parche ? 1 : 0) + (e.numero != null ? 2 : 0) + (e.nombre != null ? 4 : 0)
+      return `${String(idx).padStart(2, '0')}${s}${q}${ef}`
     }).filter(Boolean)
     if (!parts.length) return telegramBase()
     return `https://t.me/${STORE_CONFIG.botUsername}?start=p${parts.join('')}`

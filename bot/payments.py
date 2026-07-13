@@ -48,12 +48,22 @@ def verify_usdt_payment(tx_hash: str, expected_amount_eur: float) -> dict:
         if ret and ret[0].get("contractRet") != "SUCCESS":
             return {"ok": False, "error": "TX fallida"}
 
-        # Extraer cantidad - viene en el data del contrato
-        # La cantidad mínima aceptada es el 95% del precio (por fluctuación de cambio EUR/USDT)
-        # Asumimos 1 USDT ≈ 1 EUR para simplificar
-        min_amount = expected_amount_eur * 0.95
+        # Decodificar importe real de la transacción (ABI TRC20 transfer)
+        contract_data = param.get("data", "")
+        if len(contract_data) >= 136:
+            amount_hex  = contract_data[72:136]
+            amount_raw  = int(amount_hex, 16)
+            usdt_amount = amount_raw / 1_000_000  # USDT tiene 6 decimales
 
-        return {"ok": True, "amount": expected_amount_eur, "to": USDT_WALLET}
+            min_expected = expected_amount_eur * 0.95  # tolerancia 5%
+            if usdt_amount < min_expected:
+                return {
+                    "ok": False,
+                    "error": f"Importe insuficiente: {usdt_amount:.2f} USDT (esperado: {expected_amount_eur:.2f})"
+                }
+            return {"ok": True, "amount": usdt_amount}
+        else:
+            return {"ok": False, "error": "No se pudo leer el importe de la TX"}
 
     except Exception as e:
         return {"ok": False, "error": str(e)}

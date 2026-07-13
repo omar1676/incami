@@ -14,7 +14,7 @@ from payments import verify_usdt_payment, payment_instructions_text
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Estados de la conversación
-WAITING_ADDRESS, WAITING_PAYMENT = range(2)
+WAITING_EXTRAS, WAITING_ADDRESS, WAITING_PAYMENT = range(3)
 
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
@@ -23,23 +23,29 @@ def decode_order_payload(encoded: str) -> list | None:
     if not encoded:
         return None
 
-    # Formato compacto v2: empieza con 'p' + grupos de 4 chars (II S Q)
+    # Formato compacto v2: empieza con 'p' + grupos de 5 chars (II S Q e)
     if encoded.startswith('p'):
         try:
             body = encoded[1:]
-            if len(body) % 4 != 0:
+            if len(body) % 5 != 0:
                 return None
             size_dec = {'S':'S','M':'M','L':'L','X':'XL','2':'2XL','3':'3XL','4':'4XL'}
             items = []
-            for i in range(0, len(body), 4):
-                chunk = body[i:i+4]
-                idx  = int(chunk[:2])
-                size = size_dec.get(chunk[2], chunk[2])
-                qty  = int(chunk[3])
+            for i in range(0, len(body), 5):
+                chunk = body[i:i+5]
+                idx       = int(chunk[:2])
+                size      = size_dec.get(chunk[2], chunk[2])
+                qty       = int(chunk[3])
+                extras_bits = int(chunk[4])
                 pid, product = get_product_by_index(idx)
                 if not product:
                     return None
-                items.append({'id': pid, 'size': size, 'qty': qty, 'extras': {}})
+                extras = {
+                    'parche': bool(extras_bits & 1),
+                    'numero': '' if extras_bits & 2 else None,
+                    'nombre': '' if extras_bits & 4 else None,
+                }
+                items.append({'id': pid, 'size': size, 'qty': qty, 'extras': extras})
             return items or None
         except Exception:
             return None
@@ -85,10 +91,12 @@ def format_supplier_message(order: dict) -> str:
         if extras.get("nombre"): line += f" | Nombre: {extras['nombre']}"
         lines.append(line)
 
+    extras_block = f"\n✏️ *Personalización:*\n{order['extras_text']}\n" if order.get('extras_text') else ""
     return (
         f"🆕 *NUEVO PEDIDO #{order['id']}*\n\n"
-        f"📦 *Productos:*\n" + "\n".join(lines) + "\n\n"
-        f"📍 *Dirección de envío:*\n{order['address']}\n\n"
+        f"📦 *Productos:*\n" + "\n".join(lines) + "\n"
+        + extras_block +
+        f"\n📍 *Dirección de envío:*\n{order['address']}\n\n"
         f"👤 *Cliente:* @{order['username'] or 'sin usuario'}\n"
         f"💰 *Total cobrado:* {order['total']} USDT\n"
         f"🔗 *TX:* `{order['tx_hash']}`"
@@ -135,11 +143,59 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     summary = format_items(items)
 
+    # Comprobar si algún item necesita número o nombre personalizados
+    needs_extras = any(
+        i.get('extras', {}).get('numero') is not None or
+        i.get('extras', {}).get('nombre') is not None
+        for i in items
+    )
+
+    if needs_extras:
+        # Construir lista de items que necesitan personalización
+        extra_lines = []
+        for item in items:
+            ex = item.get('extras', {})
+            fields = []
+            if ex.get('numero') is not None: fields.append('Número')
+            if ex.get('nombre') is not None: fields.append('Nombre')
+            if fields:
+                product = get_product(item['id'])
+                extra_lines.append(f"• {product['name']} ({', '.join(fields)})")
+
+        await update.message.reply_text(
+            f"✅ *Pedido recibido — #{order_id}*\n\n"
+            f"{summary}\n\n"
+            f"✏️ *Personalización requerida:*\n" + "\n".join(extra_lines) + "\n\n"
+            f"Envía los datos en este formato, uno por línea:\n"
+            f"`Nombre del equipo: Número X / Nombre Apellido`\n\n"
+            f"Ejemplo:\n`Argentina Visitante: Número 10 / Nombre Messi`",
+            parse_mode="Markdown"
+        )
+        return WAITING_EXTRAS
+
     await update.message.reply_text(
         f"✅ *Pedido recibido — #{order_id}*\n\n"
         f"{summary}\n\n"
-        f"💰 *Total: {total}€*\n\n"
         f"📍 Para continuar, envíame tu *dirección completa de envío*:\n"
+        f"_(Nombre · Calle · Ciudad · País · Código Postal)_",
+        parse_mode="Markdown"
+    )
+    return WAITING_ADDRESS
+
+
+async def receive_extras(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    extras_text = update.message.text.strip()
+    order_id    = context.user_data.get("order_id")
+
+    if not order_id:
+        await update.message.reply_text("❌ Sesión expirada. Vuelve a la web para hacer el pedido.")
+        return ConversationHandler.END
+
+    update_order(order_id, extras_text=extras_text)
+
+    await update.message.reply_text(
+        f"✅ Personalización guardada.\n\n"
+        f"📍 Ahora envíame tu *dirección completa de envío*:\n"
         f"_(Nombre · Calle · Ciudad · País · Código Postal)_",
         parse_mode="Markdown"
     )
@@ -280,6 +336,7 @@ def main():
     conv = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
         states={
+            WAITING_EXTRAS:  [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_extras)],
             WAITING_ADDRESS: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_address)],
             WAITING_PAYMENT: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_payment)],
         },

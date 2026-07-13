@@ -40,7 +40,11 @@
       "PowerShell(New-Item *)",
       "Bash(node -e ' *)",
       "Bash(git remote *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(ipconfig)",
+      "Bash(findstr \"IPv4\")"
     ]
   }
 }

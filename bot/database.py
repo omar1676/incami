@@ -1,8 +1,9 @@
 import sqlite3
 import uuid
+import os
 from datetime import datetime
 
-DB_PATH = "orders.db"
+DB_PATH = os.getenv("DB_PATH", "orders.db")
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -12,6 +13,7 @@ def init_db():
             user_id     INTEGER NOT NULL,
             username    TEXT,
             items_json  TEXT NOT NULL,
+            extras_text TEXT,
             address     TEXT,
             total       REAL NOT NULL,
             status      TEXT DEFAULT 'pending_address',

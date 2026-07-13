@@ -1,7 +1,7 @@
 import { useCartDrawerController } from '../controllers/useCartDrawerController'
 
 export default function CartDrawer({ open, onClose }) {
-  const { items, removeItem, updateQty, totalItems, totalPrice, itemPrice, handleConsultar, t } = useCartDrawerController()
+  const { items, removeItem, updateQty, totalItems, handleConsultar, t } = useCartDrawerController()
 
   return (
     <>
