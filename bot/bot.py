@@ -1,6 +1,8 @@
 import json
 import base64
 import logging
+import requests
+from io import BytesIO
 from telegram import Update, ReplyKeyboardRemove, InputMediaPhoto
 from telegram.ext import (
     Application, CommandHandler, MessageHandler,
@@ -77,8 +79,22 @@ def format_items(items: list) -> str:
         lines.append(line)
     return "\n\n".join(lines)
 
+_IMG_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36",
+    "Referer": "https://www.yupoo.com/",
+}
+
+def _fetch_image(url: str) -> BytesIO | None:
+    try:
+        resp = requests.get(url, headers=_IMG_HEADERS, timeout=10)
+        if resp.status_code == 200 and resp.content:
+            return BytesIO(resp.content)
+    except Exception as e:
+        logging.warning(f"Error descargando imagen {url}: {e}")
+    return None
+
 def build_media_group(items: list) -> list:
-    """Devuelve hasta 10 InputMediaPhoto con una foto por producto del pedido."""
+    """Descarga y devuelve hasta 10 InputMediaPhoto, una por producto distinto."""
     seen = set()
     media = []
     for item in items:
@@ -90,7 +106,11 @@ def build_media_group(items: list) -> list:
         if not product or not product.get("image"):
             continue
         caption = product["name"] if not media else None
-        media.append(InputMediaPhoto(media=product["image"], caption=caption))
+        buf = _fetch_image(product["image"])
+        if buf:
+            media.append(InputMediaPhoto(media=buf, caption=caption))
+        else:
+            media.append(InputMediaPhoto(media=product["image"], caption=caption))
         if len(media) == 10:
             break
     return media
