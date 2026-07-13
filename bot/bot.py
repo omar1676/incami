@@ -116,7 +116,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return ConversationHandler.END
 
     # Decodificar pedido del payload
+    logging.info(f"START payload recibido: {args[0]!r}")
     items = decode_order_payload(args[0])
+    logging.info(f"Items decodificados: {items}")
     if not items:
         await update.message.reply_text("❌ Pedido no válido. Vuelve a la web e inténtalo de nuevo.")
         return ConversationHandler.END
