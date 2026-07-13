@@ -1,5 +1,27 @@
 EXTRA_PRICE = 5
 
+ORDERED_IDS = [
+  'arg-away-26-27','arg-training-26-27','arg-goat-26-27',
+  'bra-home-26-27','bra-away-26-27','bra-gk-green-26-27',
+  'fra-away-26-27','eng-home-26-27','eng-special-26-27','eng-training-26-27',
+  'por-gk-green-26-27','por-gk-pink-26-27','por-gk-grey-26-27','por-goat-26-27',
+  'esp-away-26-27','ger-home-26-27','col-home-26-27',
+  'ned-home-26-27','ned-away-26-27','cro-home-26-27','cro-away-26-27',
+  'jpn-away-26-27','kor-away-26-27','nor-home-26-27','nor-away-26-27',
+  'jam-away-26-27','rm-home-26-27','bar-home-26-27','bar-special-26-27',
+  'bar-training-26-27','manu-home-26-27','manu-graffiti-26-27','mancity-home-26-27',
+  'ars-home-26-27','ars-away-26-27','acm-home-26-27','acm-away-26-27',
+  'psg-white-26-27','psg-beige-training-26-27','tot-training-26-27',
+  'ben-third-26-27','cel-home-26-27','lag-home-26-27','fla-home-26-27',
+  'pal-home-26-27','pal-away-26-27','liv-training-24-26','por-special-25-26',
+]
+
+def get_product_by_index(idx):
+    if 0 <= idx < len(ORDERED_IDS):
+        pid = ORDERED_IDS[idx]
+        return pid, CATALOG.get(pid)
+    return None, None
+
 CATALOG = {
   "arg-away-26-27":      {"name": "Argentina Visitante 26-27",               "price": 30},
   "arg-training-26-27":  {"name": "Argentina Entrenamiento 26-27",           "price": 25},

@@ -7,7 +7,7 @@ from telegram.ext import (
     ConversationHandler, ContextTypes, filters,
 )
 from config import BOT_TOKEN, SUPPLIER_CHAT_ID, USDT_WALLET, OWNER_CHAT_ID
-from products import get_product, calculate_item_price, calculate_total
+from products import get_product, get_product_by_index, calculate_item_price, calculate_total
 from database import init_db, create_order, get_order, get_order_by_user, update_order
 from payments import verify_usdt_payment, payment_instructions_text
 
@@ -20,6 +20,31 @@ WAITING_ADDRESS, WAITING_PAYMENT = range(2)
 # ── Helpers ─────────────────────────────────────────────────────────────────
 
 def decode_order_payload(encoded: str) -> list | None:
+    if not encoded:
+        return None
+
+    # Formato compacto v2: empieza con 'p' + grupos de 4 chars (II S Q)
+    if encoded.startswith('p'):
+        try:
+            body = encoded[1:]
+            if len(body) % 4 != 0:
+                return None
+            size_dec = {'S':'S','M':'M','L':'L','X':'XL','2':'2XL','3':'3XL','4':'4XL'}
+            items = []
+            for i in range(0, len(body), 4):
+                chunk = body[i:i+4]
+                idx  = int(chunk[:2])
+                size = size_dec.get(chunk[2], chunk[2])
+                qty  = int(chunk[3])
+                pid, product = get_product_by_index(idx)
+                if not product:
+                    return None
+                items.append({'id': pid, 'size': size, 'qty': qty, 'extras': {}})
+            return items or None
+        except Exception:
+            return None
+
+    # Fallback: formato base64 antiguo
     try:
         padded = encoded + "=" * (4 - len(encoded) % 4)
         decoded = base64.urlsafe_b64decode(padded).decode()
@@ -197,6 +222,13 @@ async def receive_payment(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     return ConversationHandler.END
 
 
+async def solo_web(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "⚠️ Los pedidos solo se realizan desde nuestra tienda web.\n\n"
+        "🌐 Visita nuestra tienda, añade las camisetas al carrito y pulsa el botón de Telegram para hacer tu pedido.",
+        parse_mode="Markdown"
+    )
+
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("Pedido cancelado.", reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
@@ -248,6 +280,7 @@ def main():
 
     app.add_handler(conv)
     app.add_handler(CommandHandler("estado", estado))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, solo_web))
 
     logging.info("Bot INCAMI arrancando...")
     app.run_polling(drop_pending_updates=True)

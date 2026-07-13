@@ -1,10 +1,29 @@
 export const STORE_CONFIG = {
-  telegramNumber:   '34633311108',   // con prefijo país, sin +
-  telegramUsername: '',              // pon tu @usuario de Telegram para activar mensajes prellenados
-  botUsername:      'incami_shop_bot', // bot de Telegram para pedidos automáticos
+  telegramNumber:   '212669766763',
+  telegramUsername: '',
+  botUsername:      'incami_shop_bot',
   storeName:  'INCAMI',
   fullName:   'info camisetas',
 }
+
+// Orden idéntico al CATALOG de bot/products.py
+const ORDERED_IDS = [
+  'arg-away-26-27','arg-training-26-27','arg-goat-26-27',
+  'bra-home-26-27','bra-away-26-27','bra-gk-green-26-27',
+  'fra-away-26-27','eng-home-26-27','eng-special-26-27','eng-training-26-27',
+  'por-gk-green-26-27','por-gk-pink-26-27','por-gk-grey-26-27','por-goat-26-27',
+  'esp-away-26-27','ger-home-26-27','col-home-26-27',
+  'ned-home-26-27','ned-away-26-27','cro-home-26-27','cro-away-26-27',
+  'jpn-away-26-27','kor-away-26-27','nor-home-26-27','nor-away-26-27',
+  'jam-away-26-27','rm-home-26-27','bar-home-26-27','bar-special-26-27',
+  'bar-training-26-27','manu-home-26-27','manu-graffiti-26-27','mancity-home-26-27',
+  'ars-home-26-27','ars-away-26-27','acm-home-26-27','acm-away-26-27',
+  'psg-white-26-27','psg-beige-training-26-27','tot-training-26-27',
+  'ben-third-26-27','cel-home-26-27','lag-home-26-27','fla-home-26-27',
+  'pal-home-26-27','pal-away-26-27','liv-training-24-26','por-special-25-26',
+]
+
+const SIZE_ENC = { S:'S', M:'M', L:'L', XL:'X', '2XL':'2', '3XL':'3', '4XL':'4' }
 
 function telegramBase() {
   return STORE_CONFIG.telegramUsername
@@ -13,20 +32,19 @@ function telegramBase() {
 }
 
 export function buildTelegramLink(items) {
-  // Si hay bot configurado, usar el bot automático con payload codificado
   if (STORE_CONFIG.botUsername) {
-    const payload = btoa(JSON.stringify(
-      items.map(i => ({
-        id:     i.id,
-        size:   i.selectedSize,
-        qty:    i.qty,
-        extras: i.extras ?? {},
-      }))
-    )).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
-    return `https://t.me/${STORE_CONFIG.botUsername}?start=${payload}`
+    // Formato compacto: 'p' + grupos de 4 chars por item (II=index, S=size, Q=qty)
+    const parts = items.map(i => {
+      const idx = ORDERED_IDS.indexOf(i.id)
+      if (idx < 0) return null
+      const s = SIZE_ENC[i.selectedSize] || 'M'
+      const q = Math.min(i.qty, 9)
+      return `${String(idx).padStart(2, '0')}${s}${q}`
+    }).filter(Boolean)
+    if (!parts.length) return telegramBase()
+    return `https://t.me/${STORE_CONFIG.botUsername}?start=p${parts.join('')}`
   }
 
-  // Fallback: mensaje de texto a número/username
   const base = telegramBase()
   if (!items?.length) return base
 
