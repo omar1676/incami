@@ -1,7 +1,7 @@
 import json
 import base64
 import logging
-from telegram import Update, ReplyKeyboardRemove
+from telegram import Update, ReplyKeyboardRemove, InputMediaPhoto
 from telegram.ext import (
     Application, CommandHandler, MessageHandler,
     ConversationHandler, ContextTypes, filters,
@@ -76,6 +76,24 @@ def format_items(items: list) -> str:
             line += f"\n  Extras: {', '.join(extras_list)}"
         lines.append(line)
     return "\n\n".join(lines)
+
+def build_media_group(items: list) -> list:
+    """Devuelve hasta 10 InputMediaPhoto con una foto por producto del pedido."""
+    seen = set()
+    media = []
+    for item in items:
+        pid = item["id"]
+        if pid in seen:
+            continue
+        seen.add(pid)
+        product = get_product(pid)
+        if not product or not product.get("image"):
+            continue
+        caption = product["name"] if not media else None
+        media.append(InputMediaPhoto(media=product["image"], caption=caption))
+        if len(media) == 10:
+            break
+    return media
 
 def format_supplier_message(order: dict) -> str:
     items = json.loads(order["items_json"])
@@ -261,6 +279,18 @@ async def receive_payment(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         parse_mode="Markdown"
     )
 
+    # Fotos al cliente
+    items_list = context.user_data.get("items", [])
+    media_group = build_media_group(items_list)
+    if media_group:
+        try:
+            await context.bot.send_media_group(
+                chat_id=update.effective_chat.id,
+                media=media_group,
+            )
+        except Exception as e:
+            logging.warning(f"No se pudieron enviar fotos al cliente: {e}")
+
     # Reenviar al proveedor chino
     order = get_order(order_id)
     supplier_msg = format_supplier_message(order)
@@ -272,6 +302,11 @@ async def receive_payment(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 text=supplier_msg,
                 parse_mode="Markdown"
             )
+            if media_group:
+                await context.bot.send_media_group(
+                    chat_id=int(SUPPLIER_CHAT_ID),
+                    media=media_group,
+                )
         except Exception as e:
             logging.error(f"Error enviando al proveedor: {e}")
 
@@ -283,6 +318,11 @@ async def receive_payment(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 text=f"💰 *NUEVO PEDIDO PAGADO #{order_id}*\nTotal: {total}€\n\n{supplier_msg}",
                 parse_mode="Markdown"
             )
+            if media_group:
+                await context.bot.send_media_group(
+                    chat_id=int(OWNER_CHAT_ID),
+                    media=media_group,
+                )
         except Exception as e:
             logging.error(f"Error notificando al owner: {e}")
 
