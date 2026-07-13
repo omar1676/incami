@@ -183,17 +183,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     summary = format_items(items)
 
-    # Enviar fotos de los productos
-    media_group = build_media_group(items)
-    if media_group:
-        try:
-            await context.bot.send_media_group(
-                chat_id=update.effective_chat.id,
-                media=media_group,
-            )
-        except Exception as e:
-            logging.warning(f"No se pudieron enviar fotos: {e}")
-
     # Comprobar si algún item necesita número o nombre personalizados
     needs_extras = any(
         i.get('extras', {}).get('numero') is not None or
@@ -309,50 +298,35 @@ async def receive_payment(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         parse_mode="Markdown"
     )
 
-    # Fotos al cliente
-    items_list = context.user_data.get("items", [])
-    media_group = build_media_group(items_list)
-    if media_group:
-        try:
-            await context.bot.send_media_group(
-                chat_id=update.effective_chat.id,
-                media=media_group,
-            )
-        except Exception as e:
-            logging.warning(f"No se pudieron enviar fotos al cliente: {e}")
-
-    # Reenviar al proveedor chino
+    # Preparar plantilla + fotos para proveedor y owner
     order = get_order(order_id)
     supplier_msg = format_supplier_message(order)
+    owner_msg    = f"💰 *NUEVO PEDIDO PAGADO #{order_id}*\nTotal: {total}€\n\n{supplier_msg}"
+    items_list   = context.user_data.get("items", [])
+    media_group  = build_media_group(items_list)
+
+    async def send_order(chat_id: int, text: str):
+        """Envía la plantilla del pedido: foto(s) con el texto como caption, o solo texto si no hay fotos."""
+        if not media_group:
+            await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="Markdown")
+            return
+        # Caption máx 1024 chars en Telegram; si supera, truncar
+        caption = text[:1020] + "…" if len(text) > 1024 else text
+        # Asignar caption solo a la primera foto
+        media_group[0] = InputMediaPhoto(media=media_group[0].media, caption=caption, parse_mode="Markdown")
+        for i in range(1, len(media_group)):
+            media_group[i] = InputMediaPhoto(media=media_group[i].media)
+        await context.bot.send_media_group(chat_id=chat_id, media=media_group)
 
     if SUPPLIER_CHAT_ID:
         try:
-            await context.bot.send_message(
-                chat_id=int(SUPPLIER_CHAT_ID),
-                text=supplier_msg,
-                parse_mode="Markdown"
-            )
-            if media_group:
-                await context.bot.send_media_group(
-                    chat_id=int(SUPPLIER_CHAT_ID),
-                    media=media_group,
-                )
+            await send_order(int(SUPPLIER_CHAT_ID), supplier_msg)
         except Exception as e:
             logging.error(f"Error enviando al proveedor: {e}")
 
-    # Notificarte a ti también
     if OWNER_CHAT_ID:
         try:
-            await context.bot.send_message(
-                chat_id=int(OWNER_CHAT_ID),
-                text=f"💰 *NUEVO PEDIDO PAGADO #{order_id}*\nTotal: {total}€\n\n{supplier_msg}",
-                parse_mode="Markdown"
-            )
-            if media_group:
-                await context.bot.send_media_group(
-                    chat_id=int(OWNER_CHAT_ID),
-                    media=media_group,
-                )
+            await send_order(int(OWNER_CHAT_ID), owner_msg)
         except Exception as e:
             logging.error(f"Error notificando al owner: {e}")
 
