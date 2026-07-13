@@ -183,6 +183,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     summary = format_items(items)
 
+    # Enviar fotos de los productos
+    media_group = build_media_group(items)
+    if media_group:
+        try:
+            await context.bot.send_media_group(
+                chat_id=update.effective_chat.id,
+                media=media_group,
+            )
+        except Exception as e:
+            logging.warning(f"No se pudieron enviar fotos: {e}")
+
     # Comprobar si algún item necesita número o nombre personalizados
     needs_extras = any(
         i.get('extras', {}).get('numero') is not None or
@@ -191,7 +202,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
 
     if needs_extras:
-        # Construir lista de items que necesitan personalización
         extra_lines = []
         for item in items:
             ex = item.get('extras', {})
