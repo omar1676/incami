@@ -5,7 +5,13 @@ from datetime import datetime
 
 DB_PATH = os.getenv("DB_PATH", "orders.db")
 
+def _ensure_dir():
+    directory = os.path.dirname(DB_PATH)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
 def init_db():
+    _ensure_dir()
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS orders (
